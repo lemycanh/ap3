@@ -1,8 +1,11 @@
 package com.uni.geoquiz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -15,9 +18,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String CUR_QUESTION_IDX = "CUR_QUESTION_IDX";
     private List<Question> questionList;
     private int curQuestionIdx = 0;
     TextView tvQuestionContent;
+    final static String TAG = "GEOQUIZ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +34,52 @@ public class MainActivity extends AppCompatActivity {
         View view = layoutInflater.inflate(R.layout.activity_main,null);
 
         tvQuestionContent = view.findViewById(R.id.tvQuestionContent);
+
+        if(savedInstanceState != null) {
+            curQuestionIdx = savedInstanceState.getInt(CUR_QUESTION_IDX, 0);
+            Log.d(TAG, "onCreate " + curQuestionIdx);
+        }
+
         showCurQuestion();
 
         setContentView(view);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState " + curQuestionIdx);
+        outState.putInt(CUR_QUESTION_IDX, curQuestionIdx);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
     }
 
     private void showCurQuestion() {
